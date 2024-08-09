@@ -37,6 +37,14 @@ export const getOrderByUser = createAsyncThunk('order/get-order',async(id,thunkA
     }
 })
 
+export const getMonthlyOrderDetails = createAsyncThunk('order/get-orderDetails',async(id,thunkApi)=>{
+    try{
+        return await authService.getMonthlyOrderDetails()
+    }catch(err){
+        return thunkApi.rejectWithValue(err)
+    }
+})
+
 export const authSlice = createSlice({
     name:"auth",
     initialState,
@@ -81,6 +89,21 @@ export const authSlice = createSlice({
             state.orderByUser =action.payload
         })
         .addCase(getOrderByUser.rejected,(state,action)=>{
+            state.isLoading = false
+            state.isError=true
+            state.isSuccess = false
+            state.message = action.error
+        })
+        .addCase(getMonthlyOrderDetails.pending,(state)=>{
+            state.isLoading = true
+        })
+        .addCase(getMonthlyOrderDetails.fulfilled,(state,action)=>{
+            state.isLoading = false
+            state.isError=true
+            state.isSuccess = true
+            state.monthlyOrderDetails =action.payload
+        })
+        .addCase(getMonthlyOrderDetails.rejected,(state,action)=>{
             state.isLoading = false
             state.isError=true
             state.isSuccess = false

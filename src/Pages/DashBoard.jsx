@@ -2,6 +2,8 @@ import React from "react";
 import { BsArrowDownRight, BsArrowUpRight } from "react-icons/bs";
 import { Column } from "@ant-design/plots";
 import { Table } from "antd";
+import {useDispatch} from 'react-router-dom'
+
 const columns = [
   {
     title: "SNo",
@@ -31,6 +33,9 @@ for (let i = 0; i < 46; i++) {
 }
 
 const DashBoard = () => {
+
+  const dispatch = useDispatch()
+  const 
     const data = [
         {
           type: "Jan",

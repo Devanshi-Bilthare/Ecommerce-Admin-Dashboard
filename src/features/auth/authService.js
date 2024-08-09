@@ -26,7 +26,17 @@ const getOrder = async (id) => {
     return response.data;
   };
 
+  const getMonthlyOrderDetails = async (id) => {
+    const response = await axios.get(
+      `${base_url}user/getMonthWiseOrderDetails`,
+      "",
+      config
+    );
+  
+    return response.data;
+  };
 
-const authService = {login,getOrders,getOrder}
+
+const authService = {login,getOrders,getOrder,getMonthlyOrderDetails}
 
 export default authService
