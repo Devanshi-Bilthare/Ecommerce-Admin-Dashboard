@@ -1,1 +1,1 @@
-export const base_url = "http://localhost:4000/api/"
+export const base_url = "https://ecommerce-backend-4-m3na.onrender.com/api/"
