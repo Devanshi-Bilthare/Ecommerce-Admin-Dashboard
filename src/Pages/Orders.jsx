@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { BiEdit } from "react-icons/bi";
 import { AiFillDelete } from "react-icons/ai";
 import { Link } from "react-router-dom";
-import { getOrders } from "../features/auth/authSlice";
+import { getOrders, updateOrder } from "../features/auth/authSlice";
 const columns = [
   {
     title: "SNo",
@@ -26,7 +26,6 @@ const columns = [
     title: "Date",
     dataIndex: "date",
   },
-
   {
     title: "Action",
     dataIndex: "action",
@@ -40,26 +39,30 @@ const Orders = () => {
     dispatch(getOrders());
   }, []);
   const orderState = useSelector((state) => state.auth.orders);
+
+  const updateOrderStatus =(a,b)=>{
+    dispatch(updateOrder({id:a,status:b}))
+  }
+
   const data1 = [];
   for (let i = 0; i < orderState.length; i++) {
     data1.push({
       key: i + 1,
-      name: orderState[i].orderby.firstname,
-      product:<Link to={`/admin/order/${orderState[i].orderby._id}`}>View Orders</Link>,
-      amount: orderState[i].paymentIntent.amount,
+      name: orderState[i]?.user?.firstname + " " + orderState[i]?.user?.lastname,
+      product:<Link to={`/admin/order/${orderState[i]?._id}`}>View Orders</Link>,
+      amount: orderState[i]?.totalPrice,
       date: new Date(orderState[i].createdAt).toLocaleString(),
-      action: (
-        <div className='text-xl text-red-500 flex gap-2'>
-          <Link to="/">
-            <BiEdit />
-          </Link>
-          <Link>
-            <AiFillDelete />
-          </Link>
-        </div>
-      ),
+      action:(
+        <select defaultValue={orderState[i]?.orderStatus} name="status" onChange={(e) => updateOrderStatus(orderState[i]?._id,e.target.value)} id="">
+          <option value="processed">Processed</option>
+          <option value="shipped">Shipped</option>
+          <option value="Out For Delivery">Out ForDelivery</option>
+          <option value="Delivered">Delivered</option>
+        </select>
+      )
     });
   }
+
 
   return (
     <div>

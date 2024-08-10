@@ -29,9 +29,17 @@ export const getOrders = createAsyncThunk('order/get-orders',async(thunkApi)=>{
     }
 })
 
-export const getOrderByUser = createAsyncThunk('order/get-order',async(id,thunkApi)=>{
+export const getSingleOrder = createAsyncThunk('order/get-order',async(id,thunkApi)=>{
     try{
-        return await authService.getOrder()
+        return await authService.getSingleOrder(id)
+    }catch(err){
+        return thunkApi.rejectWithValue(err)
+    }
+})
+
+export const updateOrder = createAsyncThunk('order/update-order',async(data,thunkApi)=>{
+    try{
+        return await authService.updateOrder(data)
     }catch(err){
         return thunkApi.rejectWithValue(err)
     }
@@ -40,6 +48,14 @@ export const getOrderByUser = createAsyncThunk('order/get-order',async(id,thunkA
 export const getMonthlyOrderDetails = createAsyncThunk('order/get-orderDetails',async(id,thunkApi)=>{
     try{
         return await authService.getMonthlyOrderDetails()
+    }catch(err){
+        return thunkApi.rejectWithValue(err)
+    }
+})
+
+export const getYearlyStats = createAsyncThunk('order/get-yearlyDetails',async(thunkApi)=>{
+    try{
+        return await authService.getYearlyStats()
     }catch(err){
         return thunkApi.rejectWithValue(err)
     }
@@ -79,16 +95,16 @@ export const authSlice = createSlice({
             state.isSuccess = false
             state.message = action.error
         })
-        .addCase(getOrderByUser.pending,(state)=>{
+        .addCase(getSingleOrder.pending,(state)=>{
             state.isLoading = true
         })
-        .addCase(getOrderByUser.fulfilled,(state,action)=>{
+        .addCase(getSingleOrder.fulfilled,(state,action)=>{
             state.isLoading = false
             state.isError=true
             state.isSuccess = true
-            state.orderByUser =action.payload
+            state.singleOrder =action.payload
         })
-        .addCase(getOrderByUser.rejected,(state,action)=>{
+        .addCase(getSingleOrder.rejected,(state,action)=>{
             state.isLoading = false
             state.isError=true
             state.isSuccess = false
@@ -104,6 +120,36 @@ export const authSlice = createSlice({
             state.monthlyOrderDetails =action.payload
         })
         .addCase(getMonthlyOrderDetails.rejected,(state,action)=>{
+            state.isLoading = false
+            state.isError=true
+            state.isSuccess = false
+            state.message = action.error
+        })
+        .addCase(getYearlyStats.pending,(state)=>{
+            state.isLoading = true
+        })
+        .addCase(getYearlyStats.fulfilled,(state,action)=>{
+            state.isLoading = false
+            state.isError=true
+            state.isSuccess = true
+            state.YearltOrderDetails =action.payload
+        })
+        .addCase(getYearlyStats.rejected,(state,action)=>{
+            state.isLoading = false
+            state.isError=true
+            state.isSuccess = false
+            state.message = action.error
+        })
+        .addCase(updateOrder.pending,(state)=>{
+            state.isLoading = true
+        })
+        .addCase(updateOrder.fulfilled,(state,action)=>{
+            state.isLoading = false
+            state.isError=true
+            state.isSuccess = true
+            state.YearltOrderDetails =action.payload
+        })
+        .addCase(updateOrder.rejected,(state,action)=>{
             state.isLoading = false
             state.isError=true
             state.isSuccess = false
