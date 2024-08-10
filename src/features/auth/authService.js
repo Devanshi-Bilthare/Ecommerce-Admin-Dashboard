@@ -2,6 +2,13 @@ import axios from "axios";
 import { base_url } from "../../utils/base_url";
 import { config } from "../../utils/config";
 
+const register = async (userData)=>{
+  const response = await axios.post(`${base_url}user/register`,userData)
+  if(response.data){
+      localStorage.setItem('customer',JSON.stringify(response.data))
+  }
+  return response.data
+}
 
 const login = async (userData)=>{
     const response = await axios.post(`${base_url}user/login-admin`,userData)
@@ -53,6 +60,6 @@ const getSingleOrder = async (id) => {
   };
 
 
-const authService = {login,getOrders,getSingleOrder,getMonthlyOrderDetails,getYearlyStats,updateOrder}
+const authService = {login,register,getOrders,getSingleOrder,getMonthlyOrderDetails,getYearlyStats,updateOrder}
 
 export default authService

@@ -24,12 +24,14 @@ import AddCoupon from './Pages/AddCoupon'
 import CouponList from './Pages/CouponList'
 import ViewEnq from './Pages/ViewEnq'
 import ViewOrder from './Pages/ViewOrder'
+import Signup from './Pages/SignUp'
 
 const App = () => {
   return (
     <BrowserRouter>
       <Routes>
         <Route path='/' element={<Login/>} />
+        <Route path='/signup' element={<Signup/>}/>
         <Route path='/reset-password' element={<ResetPassword/>} />
         <Route path='/forgot-password' element={<ForgetPassword/>}/>
         <Route path='/admin' element={<MainLayOut/>}>
