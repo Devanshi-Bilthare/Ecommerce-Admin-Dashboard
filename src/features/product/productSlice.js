@@ -18,6 +18,15 @@ export const createProduct = createAsyncThunk('product/create-product',async(pro
     }
 })
 
+export const deleteProduct = createAsyncThunk('product/delete-product',async(id,thunkApi)=>{
+    try{
+        return await productService.deleteProduct(id)
+    }catch(err){
+        return thunkApi.rejectWithValue(err) 
+    }
+})
+
+
 
 export const resetState=createAction('Reset_all')
 
@@ -59,6 +68,21 @@ export const productSlice = createSlice({
             state.createProduct= action.payload
         })
         .addCase(createProduct.rejected,(state,action)=>{
+            state.isLoading = false
+            state.isError =true
+            state.isSuccess = false
+            state.message = action.error
+        })
+        .addCase(deleteProduct.pending,(state)=>{
+            state.isLoading=true
+        })
+        .addCase(deleteProduct.fulfilled,(state,action)=>{
+            state.isLoading = false
+            state.isError =false
+            state.isSuccess = true
+            state.deleteProduct= action.payload
+        })
+        .addCase(deleteProduct.rejected,(state,action)=>{
             state.isLoading = false
             state.isError =true
             state.isSuccess = false

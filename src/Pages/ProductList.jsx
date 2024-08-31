@@ -5,6 +5,7 @@ import { getProducts } from '../features/product/productSlice';
 import { Link } from 'react-router-dom';
 import {BiEdit} from 'react-icons/bi'
 import {AiFillDelete} from 'react-icons/ai'
+import { deleteProduct } from '../features/product/productSlice';
 
 const columns = [
   {
@@ -47,6 +48,10 @@ const ProductList = () => {
     dispatch(getProducts())
   },[])
 
+  const deletedProduct = (id)=>{
+    dispatch(deleteProduct(id))
+  }
+
   const productState = useSelector((state)=> state.product.products)
   const data1 = [];
   for (let i = 0; i < productState.length; i++) {
@@ -64,7 +69,7 @@ const ProductList = () => {
               <BiEdit />
             </Link>
             <Link>
-              <AiFillDelete />
+              <AiFillDelete onClick={()=> deletedProduct(productState[i]._id)}/>
             </Link>
           </div>
         ),

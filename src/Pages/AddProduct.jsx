@@ -33,7 +33,7 @@ const AddProduct = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate()
   const [color, setColor] = useState([]);
-  const [images, setImages] = useState([]);
+  // const [images, setImages] = useState([]);
 
   useEffect(() => {
     dispatch(getBrands());
@@ -44,7 +44,7 @@ const AddProduct = () => {
   const brandState = useSelector((state) => state.brand.brands);
   const categoryState = useSelector((state) => state.pCategory.pCategories);
   const colorState = useSelector((state) => state.color.colors);
-  const imgState = useSelector((state) => state.upload.images.images);
+  const imgState = useSelector((state) => state.upload.images);
   const newProduct = useSelector((state) => state.product);
   const {isSuccess,isError,isLoading} = newProduct
   const createdProduct = newProduct.createProduct
@@ -66,19 +66,19 @@ const AddProduct = () => {
     });
   });
 
-  const img = [];
-  imgState?.forEach((i) => {
-    img.push({
-      public_id: i.public_id,
-      url: i.url,
-    });
-  });
+  // const img = [];
+  // imgState?.forEach((i) => {
+  //   img.push({
+  //     public_id: i.public_id,
+  //     url: i.url,
+  //   });
+  // });
 
 
   useEffect(()=>{
     formik.values.color = color ? color : " ";
-    formik.values.images = img;
-  },[color,img])
+    formik.values.images = imgState.url;
+  },[color])
 
   const formik = useFormik({
     initialValues: {
@@ -250,12 +250,13 @@ const AddProduct = () => {
         </div>
             <div className="flex gap-2 mt-5">
               {
-                imgState?.map((i,j)=>{
-                  return <div className="relative">
-                    <img src={i.url} key={j} className="w-[200px] h-[200px] object-cover" alt="" />
-                    <button type="button" onClick={() => dispatch(delImg(i._public_id))} className="absolute text-white text-3xl font-bolder right-2 top-2"><RxCross2 /></button>
-                  </div>
-                })
+                // imgState?.map((i,j)=>{
+                //   return <div className="relative">
+                //     <img src={i.url} key={j} className="w-[200px] h-[200px] object-cover" alt="" />
+                //     <button type="button" onClick={() => dispatch(delImg(i._public_id))} className="absolute text-white text-3xl font-bolder right-2 top-2"><RxCross2 /></button>
+                //   </div>
+                // })
+                <img src={imgState.url} className="w-[200px] h-[200px] object-cover" alt="" />
               }
               
             </div>
